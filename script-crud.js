@@ -18,5 +18,28 @@ const taskIconSvg = `
     <path
         d="M9 16.1719L19.5938 5.57812L21 6.98438L9 18.9844L3.42188 13.4062L4.82812 12L9 16.1719Z"
         fill="#01080E" />
-</
+</svg>
 `;
+
+function createTask(tarefa) {
+  const li = document.createElement('li');
+  li.classList.add('app__section-task-list-item');
+
+  const svgIcon = document.createElement('svg');
+  svgIcon.innerHTML = taskIconSvg;
+
+  const paragraph = document.createElement('p');
+  paragraph.classList.add('app__section-task-list-item-description');
+
+  paragraph.textContent = tarefa.descricao;
+
+  li.appendChild(svgIcon);
+  li.appendChild(paragraph);
+
+  return li;
+}
+
+tarefas.forEach((task) => {
+  const taskItem = createTask(task);
+  taskListContainer.appendChild(taskItem);
+});
