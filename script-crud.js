@@ -21,6 +21,11 @@ const taskIconSvg = `
 </svg>
 `;
 
+const limparForm = () => {
+  textarea.value = '';
+  formTask.classList.add('hidden');
+};
+
 function createTask(tarefa) {
   const li = document.createElement('li');
   li.classList.add('app__section-task-list-item');
@@ -49,6 +54,8 @@ toggleFormTaskBtn.addEventListener('click', () => {
   formTask.classList.toggle('hidden');
 });
 
+cancelTaskBtn.addEventListener('click', limparForm);
+
 formTask.addEventListener('submit', (evento) => {
   evento.preventDefault();
   const task = {
@@ -59,8 +66,6 @@ formTask.addEventListener('submit', (evento) => {
   const taskItem = createTask(task);
   taskListContainer.appendChild(taskItem);
   textarea.value = '';
-});
 
-cancelTaskBtn.addEventListener('click', () => {
-  formTask.classList.toggle('hidden');
+  limparForm();
 });
