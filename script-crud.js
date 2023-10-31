@@ -13,6 +13,11 @@ const cancelTaskBtn = document.querySelector(
   '.app__form-footer__button--cancel'
 );
 
+const btnDeletar = document.querySelector('.app__form-footer__button--delete');
+
+const btnRemoverConcluidas = document.getElementById('btn-remover-concluidas');
+const btnRemoverTodas = document.getElementById('btn-remover-todas');
+
 const localStorageTarefas = localStorage.getItem('tarefas');
 let tarefas = localStorageTarefas ? JSON.parse(localStorageTarefas) : [];
 
@@ -137,6 +142,47 @@ toggleFormTaskBtn.addEventListener('click', () => {
 });
 
 cancelTaskBtn.addEventListener('click', limparForm);
+
+btnDeletar.addEventListener('click', () => {
+  if (tarefaSelecionada) {
+    const index = tarefas.indexOf(tarefaSelecionada);
+
+    if (index !== -1) {
+      tarefas.splice(index, 1);
+    }
+
+    itemTarefaSelecionada.remove();
+    tarefas.filter((t) => t != tarefaSelecionada);
+    itemTarefaSelecionada = null;
+    tarefaSelecionada = null;
+  }
+  updateLocalStorage();
+  limparForm();
+});
+
+btnRemoverTodas.addEventListener('click', () => {
+  tarefas = [];
+  itemTarefaSelecionada = null;
+  tarefaSelecionada = null;
+
+  document
+    .querySelectorAll('.app__section-task-list-item')
+    .forEach((e) => e.remove());
+
+  updateLocalStorage();
+  limparForm();
+});
+
+btnRemoverConcluidas.addEventListener('click', () => {
+  tarefas = tarefas.filter((tarefa) => !tarefa.concluida);
+
+  document
+    .querySelectorAll('.app__section-task-list-item-complete')
+    .forEach((e) => e.remove());
+
+  updateLocalStorage();
+  limparForm();
+});
 
 const updateLocalStorage = () => {
   localStorage.setItem('tarefas', JSON.stringify(tarefas));
